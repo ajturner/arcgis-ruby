@@ -1,0 +1,5 @@
+online:
+  host: http://www.arcgis.com/sharing/rest/
+  username: USER
+  password: PASS
+  
