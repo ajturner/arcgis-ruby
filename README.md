@@ -8,7 +8,7 @@ The library currently just exposes the service endpoints and accepts unverified 
 
 ## Instructions
 
-<pre>
+'''ruby
 # Create a client
 @online = Arcgis::Online.new(:host => "http://www.arcgis.com/sharing/rest/")
 # Do an unauthenticated search
@@ -27,13 +27,13 @@ puts "This item has #{@response['numComments']} comments."
 
 # Clean up
 @online.delete_items(:items => [@id])
-</pre>
+'''
 
 ### Testing
 
 arcgis-ruby uses RSpec for tests. To run, just run:
 
-   $ rspec
+    $ rspec
 
 ## Requirements
 
