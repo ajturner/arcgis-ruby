@@ -8,7 +8,7 @@ The library currently just exposes the service endpoints and accepts unverified 
 
 ## Instructions
 
-'''ruby
+```ruby
 # Create a client
 @online = Arcgis::Online.new(:host => "http://www.arcgis.com/sharing/rest/")
 # Do an unauthenticated search
@@ -27,7 +27,7 @@ puts "This item has #{@response['numComments']} comments."
 
 # Clean up
 @online.delete_items(:items => [@id])
-'''
+```
 
 ### Testing
 
