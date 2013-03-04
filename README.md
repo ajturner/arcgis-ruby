@@ -1,14 +1,39 @@
 # ArcGIS Online Ruby Library
 
-This library is a small wrapper around the 
+This library is a simple wrapper around the ArcGIS API's for GeoServices and ArcGIS Online using the sharing API.
 
-## Features
-Search, User management, Item Management
+The library currently just exposes the service endpoints and accepts unverified hashes of input parameters as specified in the [ArcGIS API](http://www.arcgis.com/apidocs/rest/). As it evolves more endpoints will be added as well as more Ruby-like objects for the various API capabilities.
+
+
 
 ## Instructions
-See example HTML file included in download.
 
- [New to Github? Get started here.](https://github.com/)
+<pre>
+# Create a client
+@online = Arcgis::Online.new(:host => "http://www.arcgis.com/sharing/rest/")
+# Do an unauthenticated search
+@results = @online.search(:q => "weather", :itemtype => "Web Map")
+
+# For features with permissions, first log in
+@online.login(:username => @username, :password => @password)
+
+# Create an item
+@response = @online.add_item(:url => "http://www.mymappingapplication.com",
+                 :title => "My Mapping Application",
+                 :type  => "Web Mapping Application",
+                 :tags  => %w{web mapping application}.join(","))
+@id = @response["id"]
+puts "This item has #{@response['numComments']} comments."
+
+# Clean up
+@online.delete_items(:items => [@id])
+</pre>
+
+### Testing
+
+arcgis-ruby uses RSpec for tests. To run, just run:
+
+   $ rspec
 
 ## Requirements
 
