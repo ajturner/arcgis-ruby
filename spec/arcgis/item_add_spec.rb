@@ -38,6 +38,20 @@ describe Arcgis::Sharing::Item do
           it "should have a serviceUrl" do
             expect(@publish_response["services"].first["serviceurl"].nil?).to eq(false)
           end
+          it "should have a size" do
+            expect(@publish_response["services"].first["size"]).to eq(3116)
+          end
+          it "should have a jobId" do
+            expect(@publish_response["services"].first["jobId"].nil?).to eq(false)
+          end
+          it "should have a serviceItemId" do
+            expect(@publish_response["services"].first["serviceItemId"].nil?).to eq(false)
+          end
+          after :all do 
+            response = @online.delete_items(:items => [@publish_response["services"].first["serviceItemId"]])
+            # puts "Delete feature service"
+            expect(response["results"].first["success"]).to eq(true)
+          end
         end
       end
       

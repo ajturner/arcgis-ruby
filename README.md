@@ -18,15 +18,24 @@ The library currently just exposes the service endpoints and accepts unverified 
 @online.login(:username => @username, :password => @password)
 
 # Create an item
-@response = @online.add_item(:url => "http://www.mymappingapplication.com",
-                 :title => "My Mapping Application",
-                 :type  => "Web Mapping Application",
-                 :tags  => %w{web mapping application}.join(","))
+@online.add_item( :title => "Weather Station Temperatures",
+                  :type => "CSV",
+                  :file => File.open("my_data.csv"),
+                  :tags  => %w{temperature stations}.join(","))
+
 @id = @response["id"]
 puts "This item has #{@response['numComments']} comments."
 
+# Publish as a feature service
+analysis = @online.analyze_item(:id => @id, :type => "CSV")
+publish = @online.publish_item(:id => @id,
+                               :filetype => "Feature Service",
+                               :publishParameters => analysis["publishParameters"].to_json)
+
+puts "Feature Service URL: " + publish["services"].first["serviceurl"]
+
 # Clean up
-@online.delete_items(:items => [@id])
+@online.delete_items(:items => [@id, publish["services"].first["serviceItemId"]])
 ```
 
 ### Testing
