@@ -18,7 +18,6 @@ describe Arcgis::Sharing::User do
         @username = ArcConfig.config["online"]["username"]
         @online.login(:username => @username, :password => ArcConfig.config["online"]["password"])
         @items = @online.user_items(:user => @username)
-        puts @items
       end
       it "should have items" do
         expect(@items["items"].length > 0).to eq(true)

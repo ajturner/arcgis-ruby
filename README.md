@@ -40,7 +40,7 @@ puts "Feature Service URL: " + publish["services"].first["serviceurl"]
 
 ### Testing
 
-arcgis-ruby uses RSpec for tests. To run, just run:
+arcgis-ruby uses RSpec for tests. First copy @config.yml.example@ to @config.yml@ and modify the username and password. Then from the command line run:
 
     $ rspec
 
