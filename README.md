@@ -12,19 +12,19 @@ The library currently just exposes the service endpoints and accepts unverified 
 # Create a client
 @online = Arcgis::Online.new(:host => "http://www.arcgis.com/sharing/rest/")
 # Do an unauthenticated search
-@results = @online.search(:q => "weather", :itemtype => "Web Map")
+results = @online.search(:q => "weather", :itemtype => "Web Map")
 
 # For features with permissions, first log in
 @online.login(:username => @username, :password => @password)
 
 # Create an item
-@online.add_item( :title => "Weather Station Temperatures",
+response = @online.add_item( :title => "Weather Station Temperatures",
                   :type => "CSV",
                   :file => File.open("my_data.csv"),
                   :tags  => %w{temperature stations}.join(","))
 
-@id = @response["id"]
-puts "This item has #{@response['numComments']} comments."
+@id = response["id"]
+puts "This item has #{response['numComments']} comments."
 
 # Publish as a feature service
 analysis = @online.analyze_item(:id => @id, :type => "CSV")
