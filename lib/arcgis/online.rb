@@ -56,9 +56,9 @@ module Arcgis
       end
 
       request = Net::HTTP::Post.new(uri.request_uri)
-      request.set_form_data({:f => "json",
-                             :token => @token}.merge(options))
-
+      params = {:f => "json", :token => @token}.merge(options)
+      request.set_multipart_form_data(params)
+      
       res = http.request(request)
       if res.is_a?(Net::HTTPSuccess)
         return JSON.parse(res.body)

@@ -43,6 +43,33 @@ module Arcgis
         item = get("/content/items/#{id}")
         item = post("/content/users/#{item["owner"]}/items/#{item["id"]}/update",options)
       end
+      
+      # 
+      # http://www.arcgis.com/apidocs/rest/publishitem.html
+      # 
+      # itemId
+      # filetype serviceDefinition | shapefile | csv | Tile Package | Feature Service
+      # publishParameters
+      # outputType
+      # 
+      # name (required)
+      def publish_item(options={})
+        options[:itemId] = options.delete(:id) unless options.include?(:itemId)
+        post("/content/users/#{username}/publish",options)
+      end
+      
+      # Analyze returns information about an item including the fields present as well as sample records.
+      # http://www.arcgis.com/apidocs/rest/analyze.html
+      # 
+      # id - id of the item
+      # type shapefile | csv
+      # file
+      # text
+      # 
+      def analyze_item(options={})
+        options[:itemId] = options.delete(:id) unless options.include?(:itemId)
+        post("/content/features/analyze",options)
+      end
     end
   end
 end
