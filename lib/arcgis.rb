@@ -1,4 +1,4 @@
-require 'arcgis/base'
-require 'arcgis/configurable'
-require 'arcgis/online'
-require 'contrib/multipart'
+require File.dirname(__FILE__) + '/arcgis/base'
+require File.dirname(__FILE__) + '/arcgis/configurable'
+require File.dirname(__FILE__) + '/arcgis/online'
+require File.dirname(__FILE__) + '/contrib/multipart'

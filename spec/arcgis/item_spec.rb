@@ -9,7 +9,7 @@ describe Arcgis::Sharing::Item do
     end
     describe "by URL" do
       before :all do
-        @response = @online.add_item(:url   => "http://www.mymappingapplication.com",
+        @response = @online.item_add(:url   => "http://www.mymappingapplication.com",
                          :title => "My Mapping Application",
                          :type  => "Web Mapping Application",
                          :tags  => %w{web mapping application}.join(","))
@@ -49,7 +49,7 @@ describe Arcgis::Sharing::Item do
       describe "editing" do
         before :all do
           @tags = Time.now.to_s
-          @online.update_item(:id => @id, :tags => @tags)
+          @online.item_update(:id => @id, :tags => @tags)
           @item = @online.item(:id => @id)
         end
         it "should have updated tags" do
@@ -57,17 +57,17 @@ describe Arcgis::Sharing::Item do
         end
       end
       after :all do
-        response = @online.delete_items(:items => [@item["id"]])
+        response = @online.item_delete(:items => [@item["id"]])
         expect(response["results"].first["success"]).to eq(true)
       end
     end
     describe "deleting" do
       before :all do
-        @response = @online.add_item(:url   => "http://www.mymappingapplication.com",
+        @response = @online.item_add(:url   => "http://www.mymappingapplication.com",
                          :title => "My Mapping Application",
                          :type  => "Web Mapping Application",
                          :tags  => %w{web mapping application})
-        @delete = @online.delete_items(:items => [@response["id"]])
+        @delete = @online.item_delete(:items => [@response["id"]])
       end
       it "should not be successful" do
         expect(@delete["results"].length).to eq(1)

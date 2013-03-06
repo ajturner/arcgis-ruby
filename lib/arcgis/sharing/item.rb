@@ -3,10 +3,23 @@ module Arcgis
   module Sharing
     # API Docs: http://www.arcgis.com/apidocs/rest/item.html
     module Item
+      include Arcgis::Base
+      def item_url
+        "items/"
+      end
+      
       # Methods:
       # <item-url> GET comments rating relatedItems
       # <item-url> POST addComment addRating deleteRating
+      ITEM_METHODS = {
+        :content => {
+          :get => ["", "comments", "rating", "relatedItems"],
+          :post => %w{addRelationship deleteRelationship addItem addComment addRating deleteRating share unshare}
+        }
+      }
       
+      extend_api(self.name.split("::").last.downcase,ITEM_METHODS)
+
       # http://www.arcgis.com/sharing/rest/content/items/{id}?f=json
       # def initialize(options)
       #   options.each do |k,v|
@@ -14,17 +27,42 @@ module Arcgis
       #   end
       # end
       
-      def item(options)
-        item = get("/content/items/#{options[:id]}")
-        # return Item.new(item)
-      end
-      
+      # def item(options)
+      #   item = get("/content/items/#{options[:id]}")
+      #   # return Item.new(item)
+      # end
+      # 
+      # def item_groups(options={})
+      #   get("/content/items/#{item["id"]}/groups",)
+      # end
+      # # http://www.arcgis.com/apidocs/rest/itemshareitem.html
+ #      # options
+ #      #   everyone <boolean>
+ #      #   org <boolean>
+ #      #   groups <array>
+ #      def item_share(options={})
+ #        options[:groups] = options.delete(:groups).join(",") if options.include?(:groups) && options.is_a?(Array)
+ #        post("/content/items/#{item["id"]}/share",options)
+ #      end
+ #      
+ #      # http://www.arcgis.com/apidocs/rest/itemunshareitem.html
+ #      def item_unshare(options={})
+ #        options[:groups] = options.delete(:groups).join(",") if options.include?(:groups) && options.is_a?(Array)
+ #        post("/content/items/#{item["id"]}/unshare",options)
+ #      end
+ 
+ 
+       # 
+       # USER CONTENT
+       # 
+       
       # Register a new item in ArcGIS Online
       # 
       # username is optional. If included it will be added to that user. 
       #  Otherwise it will use the username of the login credentials
-      def add_item(options={})
+      def item_add(options={})
         username = options.delete(:username) || "%username%"
+        options[:file] = File.open(options.delete[:file]) if options.include?(:file) && options[:file].is_a?(String)
         post("/content/users/#{username}/addItem",options)
       end
       
@@ -33,18 +71,19 @@ module Arcgis
       # options
       #   items array of item id's
       # Returns {"error"=>{"code"=>400, "messageCode"=>"CONT_0001", "message"=>"Item '8960a63b2f1443f9a0a07922fc4bffec' does not exist or is inaccessible.", "details"=>[]}}
-      def delete_items(options={})
+      def item_delete(options={})
         username = options.delete(:username) || "%username%"
         post("/content/users/#{username}/deleteItems",{:items => options[:items].join(",")})
       end
       
-      def update_item(options={})
+
+            
+      def item_update(options={})
         id = options.delete(:id)
         item = get("/content/items/#{id}")
         item = post("/content/users/#{item["owner"]}/items/#{item["id"]}/update",options)
       end
       
-      # 
       # http://www.arcgis.com/apidocs/rest/publishitem.html
       # 
       # itemId
@@ -53,7 +92,7 @@ module Arcgis
       # outputType
       # 
       # name (required)
-      def publish_item(options={})
+      def item_publish(options={})
         options[:itemId] = options.delete(:id) unless options.include?(:itemId)
         post("/content/users/#{username}/publish",options)
       end
@@ -66,7 +105,7 @@ module Arcgis
       # file
       # text
       # 
-      def analyze_item(options={})
+      def item_analyze(options={})
         options[:itemId] = options.delete(:id) unless options.include?(:itemId)
         post("/content/features/analyze",options)
       end

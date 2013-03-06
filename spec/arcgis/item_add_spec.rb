@@ -7,15 +7,34 @@ describe Arcgis::Sharing::Item do
       @username = ArcConfig.config["online"]["username"]
       @online.login(:username => @username, :password => ArcConfig.config["online"]["password"])
     end
-    describe "by file" do
+    describe "of a Shapefile" do
       before :all do
-        @response = @online.add_item(
+        @response = @online.item_add(
+                         :title => "Admin 0 Boundaries",
+                         :type => "Shapefile",
+                         :file => File.open(File.dirname(__FILE__) + "/../data/10m-admin-0-boundary-lines-land.zip"),
+                         :tags  => %w{test boundary}.join(","))
+        @id = @response["id"]        
+        @analyze_response = @online.item_analyze(:id => @id, :type => "CSV")
+        @item = @online.item(:id => @id)
+      end
+      it "should be an item" do
+        expect(@item["id"]).to eq(@id)
+      end
+      after :all do
+        response = @online.item_delete(:items => [@item["id"]])
+        expect(response["results"].first["success"]).to eq(true)
+      end
+    end
+    describe "of a CSV" do
+      before :all do
+        @response = @online.item_add(
                          :title => "Gas Data",
                          :type => "CSV",
                          :file => File.open(File.dirname(__FILE__) + "/../data/gas_data.csv"),
                          :tags  => %w{test gas}.join(","))
         @id = @response["id"]        
-        @analyze_response = @online.analyze_item(:id => @id, :type => "CSV")
+        @analyze_response = @online.item_analyze(:id => @id, :type => "CSV")
         @item = @online.item(:id => @id)
       end
       context "with analysis" do
@@ -27,7 +46,7 @@ describe Arcgis::Sharing::Item do
         end
         describe "publishing" do 
           before :all do
-            @publish_response = @online.publish_item(:id => @id,
+            @publish_response = @online.item_publish(:id => @id,
               :filetype => "Feature Service",
               :publishParameters => @analyze_response["publishParameters"].to_json)
           end
@@ -48,7 +67,7 @@ describe Arcgis::Sharing::Item do
             expect(@publish_response["services"].first["serviceItemId"].nil?).to eq(false)
           end
           after :all do 
-            response = @online.delete_items(:items => [@publish_response["services"].first["serviceItemId"]])
+            response = @online.item_delete(:items => [@publish_response["services"].first["serviceItemId"]])
             # puts "Delete feature service"
             expect(response["results"].first["success"]).to eq(true)
           end
@@ -83,7 +102,7 @@ describe Arcgis::Sharing::Item do
         expect(@item["owner"]).to eq(@username)
       end
       after :all do
-        response = @online.delete_items(:items => [@item["id"]])
+        response = @online.item_delete(:items => [@item["id"]])
         expect(response["results"].first["success"]).to eq(true)
       end
     end

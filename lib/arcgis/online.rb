@@ -1,27 +1,35 @@
-require 'arcgis/sharing/item'
-require 'arcgis/sharing/search'
-require 'arcgis/sharing/user'
+require File.dirname(__FILE__)  + '/../arcgis/base'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/community'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/item'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/search'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/user'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/group'
 require 'json'
 require 'net/http'
 module Arcgis
   class Online
+    include Arcgis::Base
+    include Arcgis::Sharing::Community
     include Arcgis::Sharing::Item
     include Arcgis::Sharing::Search
     include Arcgis::Sharing::User
+    include Arcgis::Sharing::Group
     include Arcgis::Configurable
     
     def initialize(options={})
       update_configuration(options)
     end
-    
+
+    # The root path or url in the service
+    def root_url
+      "" #host included in #get and #post
+    end
+
     def client
       @client = Arcgis::Client.new(options) unless defined?(@client) && @client.hash == options.hash        
       @client
     end
-      
-    def respond_to_missing?(method_name, include_private=false); client.respond_to?(method_name, include_private); end if RUBY_VERSION >= "1.9"
-    def respond_to?(method_name, include_private=false); client.respond_to?(method_name, include_private) || super; end if RUBY_VERSION < "1.9"
-     
+           
     # username, password, referrer
     def login(options={})
       update_configuration(options)
@@ -68,7 +76,6 @@ module Arcgis
       
     end
 
-               
     private
     # TODO: Add defaults for this? - ajturner
     def update_configuration(options={})
@@ -76,9 +83,5 @@ module Arcgis
         instance_variable_set(:"@#{key}", options[key]) if options.include?(key)
       end
     end
-    # def method_missing(method_name, *args, &block)
-    #   return super unless client.respond_to?(method_name)
-    #   client.send(method_name, *args, &block)
-    # end
   end
 end
