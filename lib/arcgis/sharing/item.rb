@@ -13,7 +13,7 @@ module Arcgis
       # <item-url> POST addComment addRating deleteRating
       ITEM_METHODS = {
         :content => {
-          :get => ["", "comments", "rating", "relatedItems"],
+          :get => ["", "comments", "rating", "relatedItems", "data"],
           :post => %w{addRelationship deleteRelationship addItem addComment addRating deleteRating share unshare}
         }
       }
