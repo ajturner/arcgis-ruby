@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../online'
+
 module Arcgis
   module Sharing
     # API Docs: http://www.arcgis.com/apidocs/rest/item.html
