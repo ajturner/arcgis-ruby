@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.autorequire = %q{arcgis}
   s.date = %q{2013-02-20}
   s.email = %q{aturner@esri.com}
-  s.files = ["LICENSE.txt", "README.md","lib/arcgis.rb"]
+  s.files = ["LICENSE.txt", "README.md"] + Dir['lib/**/*.rb']
   s.require_paths = ["lib"]
   s.rubygems_version = %q{0.1}
   s.summary = %q{A simple wrapper for ArcGIS Online sharing API}
