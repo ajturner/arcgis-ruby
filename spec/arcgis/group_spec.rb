@@ -4,7 +4,7 @@ require 'helper'
 #   :get => %w{users applications}
 # }
 describe Arcgis::Sharing::Group do
-  describe "creating a group" do
+  describe "creating a group", priviledged: true do
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
       @username = ArcConfig.config["online"]["username"]
