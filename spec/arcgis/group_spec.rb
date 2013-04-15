@@ -1,4 +1,5 @@
 require 'helper'
+require 'pp'
 # GROUP_METHODS = {
 #   :post => %w{update reassign delete join invite leave removeUsers },
 #   :get => %w{users applications}
@@ -50,7 +51,7 @@ describe Arcgis::Sharing::Group do
       @results = @online.group(:q => "R&D")
     end
     it "should have results" do 
-      expect(@results.length).to eq(@results["total"])
+      expect(@results["results"].length).to eq(@results["total"])
     end
   end
   context "for a group" do 
