@@ -5,14 +5,14 @@ require 'pp'
 #   :get => %w{users applications}
 # }
 describe Arcgis::Sharing::Group do
-  describe "creating a group", priviledged: true do
+  describe "creating a group" do
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
       @username = ArcConfig.config["online"]["username"]
       @online.login(:username => @username, :password => ArcConfig.config["online"]["password"])
       @group = @online.community_createGroup(:title => "Ruby Testing Group", 
                                              :description => "Group for Testing",
-                                             :access => "private",
+                                             :access => "org",
                                              :tags => "test,ruby")
     end
     it "should create the group" do
@@ -37,7 +37,7 @@ describe Arcgis::Sharing::Group do
       expect(@group["group"]["tags"]).to eq(["test", "ruby"])
     end
     it "should be private" do
-      expect(@group["group"]["access"]).to eq("private")      
+      expect(@group["group"]["access"]).to eq("org")      
     end    
     after :all do
       @online.group_delete(:id => @group["group"]["id"]) unless @group.nil? || @group["group"].nil?

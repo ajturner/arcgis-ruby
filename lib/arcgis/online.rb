@@ -19,7 +19,9 @@ module Arcgis
     class ErrorResponse < RuntimeError
       attr_accessor :response
       def initialize(response={})
-        super(response["message"]  || response[:message])
+        message = response["message"]  || response[:message]
+        message += response["details"].join("\n") if response["details"]
+        super(message)
         @response = response
       end
     end
