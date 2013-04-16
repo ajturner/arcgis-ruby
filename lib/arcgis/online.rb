@@ -55,6 +55,7 @@ module Arcgis
 
       return handle_response(Net::HTTP.get_response(uri))
     end
+
     def post(path, options={})
       secure = options.delete(:secure) || false
       path.gsub!(/%username%/,@username || "")

@@ -57,10 +57,10 @@ describe Arcgis::Sharing::Group do
   context "for a group" do 
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
-      @user = @online.user(:user => ArcConfig.config["online"]["username"])
+      @user = @online.user(:id => ArcConfig.config["online"]["username"])
       @group_id = "6994b7fc94fd4fca944348303191aad5"
     end
-    describe "get their applications" do
+    describe "get their applications", :priviledged => true do
       before :all do
         @applications = @online.group_applications(:id => @group_id)
       end
@@ -80,7 +80,7 @@ describe Arcgis::Sharing::Group do
         expect(@group["users"]).to eq([])
       end
     end
-    describe "get their content" do
+    describe "get their content", :priviledged => true do
       before :all do
         @items = @online.group_items(:id => @group_id)
       end
