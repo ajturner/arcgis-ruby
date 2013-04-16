@@ -14,6 +14,7 @@ module Arcgis
               define_method("#{api}_#{method}".gsub(/_$/,'')) { |options| 
                 # differentiate 'items' for /content/ from '' for /community/ - e.g. content/users/id vs. community/users/id
                 url = "#{self.send(parent.to_s+'_url')}#{self.send(api.to_s+'_url')}#{options.delete(:id)}/#{method.gsub(/items/,'')}"
+                url.gsub!(/\/+/, '/')
                 url.gsub!(/community\/community/,'community')
                 self.send(op,url,options) 
               }
