@@ -15,6 +15,15 @@ module Arcgis
     include Arcgis::Sharing::User
     include Arcgis::Sharing::Group
     include Arcgis::Configurable
+
+    class ErrorResponse < RuntimeError
+      attr_accessor :response
+      def initialize(response={})
+        super(response["message"]  || response[:message])
+        @response = response
+      end
+    end
+
     
     def initialize(options={})
       update_configuration(options)
@@ -44,13 +53,7 @@ module Arcgis
       uri.query = URI.encode_www_form({:f => "json",
                              :token => @token}.merge(options))
 
-      res = Net::HTTP.get_response(uri)
-      if res.is_a?(Net::HTTPSuccess)
-        return JSON.parse(res.body)
-      else
-        throw res.status
-      end
-      
+      return handle_response(Net::HTTP.get_response(uri))
     end
     def post(path, options={})
       secure = options.delete(:secure) || false
@@ -67,13 +70,7 @@ module Arcgis
       params = {:f => "json", :token => @token}.merge(options)
       request.set_multipart_form_data(params)
       
-      res = http.request(request)
-      if res.is_a?(Net::HTTPSuccess)
-        return JSON.parse(res.body)
-      else
-        throw res.status
-      end   
-      
+      return handle_response(http.request(request))
     end
 
     private
@@ -81,6 +78,16 @@ module Arcgis
     def update_configuration(options={})
       Arcgis::Configurable.keys.each do |key|
         instance_variable_set(:"@#{key}", options[key]) if options.include?(key)
+      end
+    end
+
+    def handle_response(res) 
+      if res.is_a?(Net::HTTPSuccess)
+        response = JSON.parse(res.body)
+        raise ErrorResponse.new(response["error"]) if response["error"]
+        return response
+      else
+        throw res.status
       end
     end
   end

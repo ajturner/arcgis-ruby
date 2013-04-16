@@ -11,7 +11,20 @@ describe Arcgis::Online do
                       :password => ArcConfig.config["online"]["password"])
       end
       it "should work" do
-       expect(@online.token.length>0).to eq(true)
+        expect(@online.token.length>0).to eq(true)
+      end
+    end
+
+    describe "failing operation" do
+      before :all do 
+        @online.login(:username => ArcConfig.config["online"]["username"],
+                      :password => ArcConfig.config["online"]["password"])
+      end
+      it 'should raise a decent message on get' do
+        expect { @online.get("/portals?f=json", {}) }.to raise_error(/output format 'json' not supported/)
+      end
+      it 'should raise a decent message on post' do
+        expect { @online.post("/portals?f=json", {}) }.to raise_error(/output format 'json' not supported/)
       end
     end
   end
