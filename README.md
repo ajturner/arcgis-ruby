@@ -46,7 +46,7 @@ arcgis-ruby uses RSpec for tests. First copy @config.yml.example@ to @config.yml
 
 If your arcgis online user is a public user, i.e. not allowed to create groups or publish items, then run:
 
-    $ rspec --tag ~@priviledged 
+    $ rspec --tag ~@privileged 
 
 This will skip tests that require publisher access.
 
