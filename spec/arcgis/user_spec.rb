@@ -1,6 +1,29 @@
 require 'helper'
 
 describe Arcgis::Sharing::User do
+  context "search for users" do 
+    before :all do 
+      @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
+    end
+    describe "by username" do 
+      before :all do
+        @users = @online.community_users(:q => "ajturner")
+      end
+      it "should have search parameters" do
+        expect(@users["query"]).to eq("ajturner")
+        expect(@users["total"]).to eq(1)
+        expect(@users["start"]).to eq(1)
+        expect(@users["num"]).to eq(10)
+        expect(@users["nextStart"]).to eq(-1)
+      end
+      it "should return results" do
+        expect(@users["results"].length>0).to eq(true)
+      end
+      it "should have valid results" do
+        expect(@users["results"][0]["username"]).to eq("ajturner")
+      end
+    end
+  end
   context "for a user" do 
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])

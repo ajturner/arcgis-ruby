@@ -4,6 +4,26 @@ require 'helper'
 #   :get => %w{users applications}
 # }
 describe Arcgis::Sharing::Group do
+  context "searching for groups" do 
+    before :all do 
+      @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
+    end
+    describe "by group name" do 
+      before :all do
+        @query = "ArcGIS for Local Government"
+        @groups = @online.community_groups(:q => @query)
+      end
+      it "should have search parameters" do
+        expect(@groups["query"]).to eq(@query)
+        expect(@groups["start"]).to eq(1)
+        expect(@groups["num"]).to eq(10)
+        expect(@groups["nextStart"]).to eq(11)
+      end
+      it "should return results" do
+        expect(@groups["results"].length>0).to eq(true)
+      end
+    end
+  end  
   describe "creating a group" do
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
@@ -50,7 +70,7 @@ describe Arcgis::Sharing::Group do
       @results = @online.group(:q => "R&D")
     end
     it "should have results" do 
-      expect(@results.length).to eq(@results["total"])
+      expect(@results.length>0).to eq(true)
     end
   end
   context "for a group" do 

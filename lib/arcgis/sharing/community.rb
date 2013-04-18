@@ -12,6 +12,7 @@ module Arcgis
       
       COMMUNITY_METHODS = {
         :community => {
+          :get => ["users", "groups"],
           :post => ["createGroup"]
         }
       }
