@@ -49,7 +49,7 @@ describe Arcgis::Sharing::User do
         @items = @online.user_items(:id => @username)
       end
       it "should have items" do
-        expect(@items["items"].length > 0).to eq(true)
+        expect(@items["items"].length >= 0).to eq(true)
       end
     end
     

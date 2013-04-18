@@ -1,7 +1,7 @@
 require 'helper'
 
 describe Arcgis::Sharing::Item do
-  context "adding an item" do 
+  context "adding an item", privileged: true do 
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
       @username = ArcConfig.config["online"]["username"]

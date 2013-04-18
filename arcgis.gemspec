@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{0.1}
   s.summary = %q{A simple wrapper for ArcGIS Online sharing API}
+
+  s.add_development_dependency "rspec", "~> 2.13"
 end

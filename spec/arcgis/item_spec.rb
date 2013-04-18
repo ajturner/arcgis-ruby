@@ -1,4 +1,3 @@
-require 'helper'
 
 describe Arcgis::Sharing::Item do
   context "adding an item" do 
@@ -61,7 +60,7 @@ describe Arcgis::Sharing::Item do
         expect(response["results"].first["success"]).to eq(true)
       end
     end
-    describe "deleting" do
+    describe "deleting an item" do
       before :all do
         @response = @online.item_add(:url   => "http://www.mymappingapplication.com",
                          :title => "My Mapping Application",
@@ -69,15 +68,16 @@ describe Arcgis::Sharing::Item do
                          :tags  => %w{web mapping application})
         @delete = @online.item_delete(:items => [@response["id"]])
       end
-      it "should not be successful" do
+      it "should be successful" do
         expect(@delete["results"].length).to eq(1)
         expect(@delete["results"].first["success"]).to eq(true)
         expect(@delete["results"].first["itemId"]).to eq(@response["id"])
       end        
       it "should not exist" do
-        @item = @online.item(:id => @response["id"])
-        expect(@item["error"]["code"]).to eq(400)
-        expect(@item["error"]["message"]).to eq("Item '#{@response["id"]}' does not exist or is inaccessible.")          
+        expect { @online.item(:id => @response["id"]) }.to raise_error { |error|
+          expect(error.response["code"]).to eq(400)
+          expect(error.response["message"]).to eq("Item '#{@response["id"]}' does not exist or is inaccessible.")          
+        }
       end
     end
   end
