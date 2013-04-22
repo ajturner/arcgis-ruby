@@ -66,7 +66,7 @@ module Arcgis
       http = Net::HTTP.new(uri.host, secure ? 443 : uri.port)
       if(secure)
         http.use_ssl = true
-        http.ssl_version = :SSLv3
+        # http.ssl_version = :SSLv3
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
 
