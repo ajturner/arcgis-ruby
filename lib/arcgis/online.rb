@@ -7,6 +7,7 @@ require File.dirname(__FILE__)  + '/../arcgis/sharing/group'
 require 'json'
 require 'net/http'
 require 'net/https'
+require 'uri'
 module Arcgis
   class Online
     include Arcgis::Base
