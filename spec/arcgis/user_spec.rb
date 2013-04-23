@@ -28,6 +28,42 @@ describe Arcgis::Sharing::User do
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
     end
+    describe "logging in" do
+      before :all do 
+        @online.login(:username => ArcConfig.config["online"]["username"],
+          :password => ArcConfig.config["online"]["password"])
+        @token = @online.token
+      end
+      it "should have a token" do
+        expect(@token.nil?).to eq(false)
+      end
+      it "should have a future token expiration" do
+        expect(@online.token_expires.nil?).to eq(false)
+        expect(@online.token_expires > DateTime.now).to eq(true)
+      end
+      describe "logging in before token is expired" do
+        before :all do
+          @online.login(:username => ArcConfig.config["online"]["username"],
+            :password => ArcConfig.config["online"]["password"])
+        end
+        it "should not refresh token" do
+          expect(@online.token).to eq(@token)
+        end
+      end
+      describe "logging in after token is expired" do
+        before :all do
+          @online.token_expires = DateTime.now - 1 #year
+          @online.login(:username => ArcConfig.config["online"]["username"],
+          :password => ArcConfig.config["online"]["password"])          
+        end
+        it "should get a new token" do
+          expect(@online.token != @token).to eq(true)
+        end
+      end
+      after :all do
+        @online.logout
+      end
+    end
     describe "get their profile" do
       before :all do 
         @user = @online.user(:id => ArcConfig.config["online"]["username"])
@@ -52,6 +88,5 @@ describe Arcgis::Sharing::User do
         expect(@items["items"].length >= 0).to eq(true)
       end
     end
-    
   end
 end

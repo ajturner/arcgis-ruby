@@ -8,6 +8,7 @@ require 'json'
 require 'net/http'
 require 'net/https'
 require 'uri'
+require 'date'
 module Arcgis
   class Online
     include Arcgis::Base
@@ -43,12 +44,20 @@ module Arcgis
       @client
     end
            
+    attr_accessor :token, :token_expires
     # username, password, referrer
     def login(options={})
       update_configuration(options)
-      user = post("/generateToken", {:secure => true, :username => @username, :password => @password,
-                             :referer => "http://arcgis.com"}.merge(options))
-      @token = user["token"]
+      if(@token.nil? || (@token_expires && @token_expires < DateTime.now) )
+        user = post("/generateToken", {:secure => true, :username => @username, :password => @password,
+                               :referer => "http://arcgis.com"}.merge(options))
+        @token = user["token"]
+        @token_expires = DateTime.strptime((user["expires"]/1000).to_s, "%s")
+      end
+    end
+    def logout
+      @token = nil
+      @token_expires = nil
     end
     
     def get(path,options={})
