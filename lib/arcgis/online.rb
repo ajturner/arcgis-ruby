@@ -48,7 +48,8 @@ module Arcgis
     # username, password, referrer
     def login(options={})
       update_configuration(options)
-      if(@token.nil? || (@token_expires && @token_expires < DateTime.now) )
+      @token = nil if (@token_expires && @token_expires < DateTime.now)
+      if(@token.nil?)
         user = post("/generateToken", {:secure => true, :username => @username, :password => @password,
                                :referer => "http://arcgis.com"}.merge(options))
         @token = user["token"]
