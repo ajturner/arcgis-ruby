@@ -11,7 +11,7 @@ module Arcgis
       # TODO is this better as a const or a method? - ajturner
       USER_METHODS = {
         :content => {
-          :get => ["items"],
+          :get => ["items", ""],
           :post => ["deleteItems"]
         },
         :community => {

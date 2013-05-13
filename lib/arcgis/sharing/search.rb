@@ -60,8 +60,9 @@ module Arcgis
       SEARCH_OPTIONS = %w{q bbox start num sortOrder}
       SEARCH_FIELDS = %w{id itemtype owner created title type typekeywords description tags snippet extent spatialreference accessinformation access group numratings numcomments avgrating culture}
       def search(options)
-        options[:q] ||= ""
-        SEARCH_FIELDS.each {|s| options[:q] << " AND %{s}:'#{options.delete(s)}'" if options.keys.include?(s) }
+        options = options.inject({}) {|hash,(k,v)| hash[k.to_s] = v; hash}
+        options['q'] ||= ""
+        SEARCH_FIELDS.each {|s| options['q'] << " AND #{s}:'#{options.delete(s)}'" if options.keys.include?(s) }
         # results["results"] = results["results"].collect { |r| Arcgis::Sharing::Item.new(r) }
         get("/search",options)
       end

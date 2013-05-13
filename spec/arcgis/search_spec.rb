@@ -6,15 +6,15 @@ describe Arcgis::Sharing::Search do
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
     end
-    describe "for 'stuff'" do
+    describe "by keyword and typekeywords" do
       before :all do 
-        @results = @online.search(:q => "stuff", :itemtype => "Web Map")
+        @results = @online.search(:q => "stuff", :typekeywords => "Data")
       end
       it "should fetch @results" do
         expect(@results["results"].length).to eq(@results["num"])
       end
-      it "should have query" do
-        expect(@results["query"]).to eq("stuff")
+      it "should return the query" do
+        expect(@results["query"]).to eq("stuff AND typekeywords:'Data'")
       end
       it "should have pagination" do
         # expect(@results["total"]).to gt(1)
