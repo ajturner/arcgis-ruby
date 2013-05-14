@@ -10,7 +10,7 @@ module Arcgis
       # TODO is this better as a const or a method? - ajturner
       GROUP_METHODS = {
         :content => {
-          :get => ["items"]
+          :get => ["", "items"]
         },
         :community => {
           :post => %w{update reassign delete join invite leave removeUsers },
@@ -19,6 +19,12 @@ module Arcgis
       }
       
       extend_api(self.name.split("::").last.downcase,GROUP_METHODS)
+      
+      # Helper function for finding a group
+      def group(options)
+        group_community(options)
+      end
+      
     end
   end
 end

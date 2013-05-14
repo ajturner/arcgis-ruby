@@ -8,20 +8,27 @@ module Arcgis
         "users/"
       end
       
+      # TODO add SubResource methods for Invitations, Notifications
       # TODO is this better as a const or a method? - ajturner
       USER_METHODS = {
         :content => {
           :get => ["items", ""],
-          :post => ["deleteItems"]
+          :post => ["deleteItems", "addRelationship", "deleteRelationship", "createFolder", "deleteFolder", 
+            "publishItem", "exportItem", "shareItems", "unshareItems", "moveItems", "deleteItems"]
         },
         :community => {
-          :post => %w{update delete},
-          :get => [""]
+          :get => ["", "notifications","tags","invitations"],
+          :post => %w{update delete}
         }
       }
       
       extend_api(self.name.split("::").last.downcase,USER_METHODS)
-            
+      
+      # simple placeholder for getting users.
+      def user(options)
+        user_community(options)
+      end
+      
       # # http://www.arcgis.com/apidocs/rest/usersearch.html
       # # http://www.arcgis.com/apidocs/rest/commonparams.html#commonparameters
       # def user_search(options = {})

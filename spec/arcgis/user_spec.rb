@@ -66,7 +66,7 @@ describe Arcgis::Sharing::User do
     end
     describe "get their profile" do
       before :all do 
-        @user = @online.user(:id => ArcConfig.config["online"]["username"])
+        @user = @online.user_community(:id => ArcConfig.config["online"]["username"])
       end
       it "should have a username" do
         expect(@user["username"]).to eq(ArcConfig.config["online"]["username"])

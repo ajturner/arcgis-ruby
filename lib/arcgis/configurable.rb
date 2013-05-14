@@ -1,6 +1,6 @@
 module Arcgis
   module Configurable
-    attr_accessor :host, :username, :password, :token
+    attr_accessor :host, :username, :password, :token, :debug
     class << self
       # TODO: include defaults? - ajturner
       def keys
@@ -8,7 +8,8 @@ module Arcgis
           :host,
           :username,
           :password,
-          :token
+          :token,
+          :debug
         ]
       end
     end

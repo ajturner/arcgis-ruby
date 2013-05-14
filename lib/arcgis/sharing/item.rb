@@ -12,13 +12,18 @@ module Arcgis
       # <item-url> POST addComment addRating deleteRating
       ITEM_METHODS = {
         :content => {
-          :get => ["", "comments", "rating", "relatedItems", "data"],
+          :get => ["", "comments", "rating", "relatedItems", "data","groups"],
           :post => %w{addRelationship deleteRelationship addItem addComment addRating deleteRating share unshare}
         }
       }
       
       extend_api(self.name.split("::").last.downcase,ITEM_METHODS)
 
+      # Helper function for loading an item
+      def item(options)
+        item_content(options)
+      end
+      
       # http://www.arcgis.com/sharing/rest/content/items/{id}?f=json
       # def initialize(options)
       #   options.each do |k,v|

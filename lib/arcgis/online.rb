@@ -63,6 +63,7 @@ module Arcgis
     
     def get(path,options={})
       path.gsub!(/%username%/,@username || "")
+      puts "Online#get #{path}" if @debug
       uri = URI.parse(@host + path)
       uri.query = URI.encode_www_form({:f => "json",
                              :token => @token}.merge(options))
@@ -73,6 +74,7 @@ module Arcgis
     def post(path, options={})
       secure = options.delete(:secure) || false
       path.gsub!(/%username%/,@username || "")
+      puts "Online#post #{path}" if @debug
       uri = URI.parse(@host + path)
       http = Net::HTTP.new(uri.host, secure ? 443 : uri.port)
       if(secure)

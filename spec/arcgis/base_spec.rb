@@ -24,7 +24,7 @@ class APIDouble
   extend_api("apiDouble", { community: {
                               post: [ 'apiMethod' ], get: ["", "anotherMethod", "sameNameMethod"] },
                             content: {
-                              post: [ 'contentMethod'], get: ["anotherContentMethod"]} } )
+                              post: [ 'contentMethod'], get: ["", "anotherContentMethod"]} } )
 end
 
 describe Arcgis::Base do
@@ -36,8 +36,11 @@ describe Arcgis::Base do
     it 'from post operation' do
       expect(@api.respond_to?('apiDouble_apiMethod')).to be true
     end
-    it 'on the api root' do
-      expect(@api.respond_to?('apiDouble')).to be true
+    it 'on the api community root' do
+      expect(@api.respond_to?('apiDouble_community')).to be true
+    end
+    it 'on the api content root' do
+      expect(@api.respond_to?('apiDouble_content')).to be true
     end
     it 'from get operation' do
       expect(@api.respond_to?('apiDouble_anotherMethod')).to be true
@@ -57,7 +60,7 @@ describe Arcgis::Base do
     end
 
     it 'should generate an api root path' do
-      @api.apiDouble({})
+      @api.apiDouble_community({})
       expect(@api.path).to eq("/community/apiDouble/")
     end
 
