@@ -58,7 +58,7 @@ module Arcgis
 # numcomments  Number of comments, for example, numcomments:[1 TO 3] returns items that have one to three comments.
 # avgrating  Average rating, for example, avgrating:3.5 returns items with 3.5 as the average rating.
 # culture  Culture, for example, culture:en-US, returns the locale of the item. The search engine treats the two parts of the culture code as two different terms and searches for individual languages can be done. For example, culture:en returns all records that have an 'en' in their culture code. There may be overlaps between the codes used for language and the codes used for country, for instance fr-FR, but if the client needs to target a code with this problem they can pass in the complete code.
-      SEARCH_OPTIONS = %w{q bbox start num sortOrder}
+      SEARCH_OPTIONS = %w{q bbox start num sortField sortOrder}
       SEARCH_FIELDS = %w{id itemtype owner created title type typekeywords description tags snippet extent spatialreference accessinformation access group numratings numcomments avgrating culture}
       def search(options)
         options = options.inject({}) {|hash,(k,v)| hash[k.to_s] = v; hash}
