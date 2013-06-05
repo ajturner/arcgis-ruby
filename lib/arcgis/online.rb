@@ -4,6 +4,7 @@ require File.dirname(__FILE__)  + '/../arcgis/sharing/item'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/search'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/user'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/group'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/features'
 require 'json'
 require 'net/http'
 require 'net/https'
@@ -17,6 +18,7 @@ module Arcgis
     include Arcgis::Sharing::Search
     include Arcgis::Sharing::User
     include Arcgis::Sharing::Group
+    include Arcgis::Sharing::Features
     include Arcgis::Configurable
 
     class ErrorResponse < RuntimeError

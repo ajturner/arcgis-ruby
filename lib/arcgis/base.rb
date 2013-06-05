@@ -24,6 +24,6 @@ module Arcgis
           end
         end
       end
-    end    
+    end
   end
 end

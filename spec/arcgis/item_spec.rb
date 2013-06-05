@@ -45,6 +45,18 @@ describe Arcgis::Sharing::Item do
       it "should have owner" do
         expect(@item["owner"]).to eq(@username)
       end
+      describe "sharing with the public" do 
+        before :all do
+          @online.item_share(:id => @item["id"], :everyone => true)
+          @updated_item = @online.item(:id => @id)
+        end
+        it "should be public" do
+          expect(@updated_item["access"]).eq("public")
+        end
+        after :all do
+          @online.item_unshare(:id => @item["id"], :everyone => true)
+        end
+      end
       describe "editing" do
         before :all do
           @tags = Time.now.to_s
