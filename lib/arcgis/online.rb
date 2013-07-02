@@ -5,6 +5,7 @@ require File.dirname(__FILE__)  + '/../arcgis/sharing/search'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/user'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/group'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/features'
+require File.dirname(__FILE__)  + '/../arcgis/sharing/comment'
 require 'json'
 require 'net/http'
 require 'net/https'
@@ -19,6 +20,7 @@ module Arcgis
     include Arcgis::Sharing::User
     include Arcgis::Sharing::Group
     include Arcgis::Sharing::Features
+    include Arcgis::Sharing::Comment
     include Arcgis::Configurable
 
     class ErrorResponse < RuntimeError
@@ -69,7 +71,7 @@ module Arcgis
       uri = URI.parse(@host + path)
       uri.query = URI.encode_www_form({:f => "json",
                              :token => @token}.merge(options))
-
+                             
       return handle_response(Net::HTTP.get_response(uri))
     end
 

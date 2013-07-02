@@ -51,7 +51,7 @@ describe Arcgis::Sharing::Item do
           @updated_item = @online.item(:id => @id)
         end
         it "should be public" do
-          expect(@updated_item["access"]).eq("public")
+          expect(@updated_item["access"]).to eq("public")
         end
         after :all do
           @online.item_unshare(:id => @item["id"], :everyone => true)

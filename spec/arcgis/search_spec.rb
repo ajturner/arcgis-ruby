@@ -14,7 +14,7 @@ describe Arcgis::Sharing::Search do
         expect(@results["results"].length).to eq(@results["num"])
       end
       it "should return the query" do
-        expect(@results["query"]).to eq("stuff AND typekeywords:'Data'")
+        expect(@results["query"]).to eq("typekeywords:\"Data\" AND stuff")
       end
       it "should have pagination" do
         # expect(@results["total"]).to gt(1)
