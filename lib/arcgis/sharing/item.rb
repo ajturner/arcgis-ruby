@@ -2,6 +2,8 @@ module Arcgis
   module Sharing
     # API Docs: http://www.arcgis.com/apidocs/rest/item.html
     module Item
+      MAX_SERVICENAME_LIMIT = 80 
+      
       include Arcgis::Base
       def item_url
         "items/"
@@ -88,7 +90,7 @@ module Arcgis
         item = post("/content/users/#{item["owner"]}/items/#{item["id"]}/update",options)
       end
       
-      # http://www.arcgis.com/apidocs/rest/publishitem.html
+      # http://www.arcgis.com/apidocs/rest/itemunshareitem.html
       # 
       # itemId
       # filetype serviceDefinition | shapefile | csv | Tile Package | Feature Service
@@ -111,7 +113,9 @@ module Arcgis
       # 
       def item_analyze(options={})
         options[:itemId] = options.delete(:id) unless options.include?(:itemId)
-        post("/content/features/analyze",options)
+        response = post("/content/features/analyze",options)
+        response["publishParameters"]["name"] = response["publishParameters"]["name"][0..MAX_SERVICENAME_LIMIT] if response["publishParameters"]["name"].length > MAX_SERVICENAME_LIMIT
+        response
       end
     end
   end

@@ -6,6 +6,7 @@ require File.dirname(__FILE__)  + '/../arcgis/sharing/user'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/group'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/features'
 require File.dirname(__FILE__)  + '/../arcgis/sharing/comment'
+require File.dirname(__FILE__)  + '/../arcgis/portal/portal'
 require 'json'
 require 'net/http'
 require 'net/https'
@@ -21,6 +22,7 @@ module Arcgis
     include Arcgis::Sharing::Group
     include Arcgis::Sharing::Features
     include Arcgis::Sharing::Comment
+    include Arcgis::Portal
     include Arcgis::Configurable
 
     class ErrorResponse < RuntimeError
