@@ -17,7 +17,6 @@ class Net::HTTP::Post
       end
     }
     self.body = "--#{boundary}\r\n" + chunks.join("--#{boundary}\r\n") + "--#{boundary}--\r\n"
-    # puts self.body
     self.content_type = "multipart/form-data; boundary=#{boundary}"
   end
 end

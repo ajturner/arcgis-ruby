@@ -64,7 +64,6 @@ module Arcgis
         options = options.inject({}) {|hash,(k,v)| hash[k.to_s] = v; hash}
         options['q'] = (SEARCH_FIELDS.collect {|s| "#{s}:#{'"'+options.delete(s)+'"'}" if options.keys.include?(s) } + [options['q']]).compact.join(" AND ")
         # results["results"] = results["results"].collect { |r| Arcgis::Sharing::Item.new(r) }
-        puts options.inspect
         get("/search",options)
       end
     end

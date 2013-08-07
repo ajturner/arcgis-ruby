@@ -67,6 +67,7 @@ module Arcgis
       # username is optional. If included it will be added to that user. 
       #  Otherwise it will use the username of the login credentials
       def item_add(options={})
+        options = options.dup
         username = options.delete(:username) || "%username%"
         options[:file] = File.open(options.delete[:file]) if options.include?(:file) && options[:file].is_a?(String)
         post("/content/users/#{username}/addItem",options)
@@ -78,6 +79,7 @@ module Arcgis
       #   items array of item id's
       # Returns {"error"=>{"code"=>400, "messageCode"=>"CONT_0001", "message"=>"Item '8960a63b2f1443f9a0a07922fc4bffec' does not exist or is inaccessible.", "details"=>[]}}
       def item_delete(options={})
+        options = options.dup
         username = options.delete(:username) || "%username%"
         post("/content/users/#{username}/deleteItems",{:items => options[:items].join(",")})
       end
@@ -85,6 +87,7 @@ module Arcgis
 
             
       def item_update(options={})
+        options = options.dup
         id = options.delete(:id)
         item = get("/content/items/#{id}")
         item = post("/content/users/#{item["owner"]}/items/#{item["id"]}/update",options)
@@ -99,6 +102,7 @@ module Arcgis
       # 
       # name (required)
       def item_publish(options={})
+        options = options.dup
         options[:itemId] = options.delete(:id) unless options.include?(:itemId)
         post("/content/users/#{username}/publish",options)
       end
@@ -112,6 +116,7 @@ module Arcgis
       # text
       # 
       def item_analyze(options={})
+        options = options.dup
         options[:itemId] = options.delete(:id) unless options.include?(:itemId)
         response = post("/content/features/analyze",options)
         response["publishParameters"]["name"] = response["publishParameters"]["name"][0..MAX_SERVICENAME_LIMIT] if response["publishParameters"]["name"].length > MAX_SERVICENAME_LIMIT
