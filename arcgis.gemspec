@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "arcgis"
-  s.version = "0.0.13"
-  s.rubygems_version = %q{0.0.13}
+  s.version = "0.0.14"
+  s.rubygems_version = %q{0.0.14}
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrew Turner"]
   s.autorequire = %q{arcgis}
