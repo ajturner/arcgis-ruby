@@ -6,7 +6,7 @@ module Arcgis
       def comment_url
         "comments/"
       end
-      
+
       # TODO is this better as a const or a method? - ajturner
       GROUP_METHODS = {
         :content => {
@@ -15,9 +15,9 @@ module Arcgis
         },
         :community => {}
       }
-      
+
       extend_api(self.name.split("::").last.downcase,GROUP_METHODS)
-      
+
       # Helper function for finding a group
       def comment(options)
         get("/content/items/#{options.delete(:item)}/comments/#{options[:id]}",options)
@@ -26,11 +26,11 @@ module Arcgis
       def comment_update(options)
         post("/content/items/#{options.delete(:item)}/comments/#{options[:id]}/update",options)
       end
-            
+
       def comment_delete(options)
         post("/content/items/#{options.delete(:item)}/comments/#{options[:id]}/delete",options)
       end
-      
+
     end
   end
 end

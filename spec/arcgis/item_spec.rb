@@ -1,4 +1,4 @@
-
+require 'helper'
 describe Arcgis::Sharing::Item do
   context "adding an item" do 
     before :all do

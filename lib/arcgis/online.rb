@@ -73,15 +73,15 @@ module Arcgis
       uri = URI.parse(@host + path)
       uri.query = URI.encode_www_form({:f => "json",
                              :token => @token}.merge(options))
-                             
+
       return handle_response(Net::HTTP.get_response(uri))
     end
 
     def post(path, options={})
       secure = options.delete(:secure) || false
       path.gsub!(/%username%/,@username || "")
-      # puts "Online#post #{path}" if @debug
       uri = URI.parse(@host + path)
+      #puts "Online#post #{uri}" if @debug
       http = Net::HTTP.new(uri.host, secure ? 443 : uri.port)
       if(secure)
         http.use_ssl = true

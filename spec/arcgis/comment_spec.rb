@@ -1,5 +1,5 @@
 describe Arcgis::Sharing::Comment do
-  context "adding an comment" do 
+  context "adding an comment" do
     before :all do
       @online = Arcgis::Online.new(:host => ArcConfig.config["online"]["host"])
       @username = ArcConfig.config["online"]["username"]
@@ -10,7 +10,7 @@ describe Arcgis::Sharing::Comment do
                        :tags  => %w{web mapping application}.join(","))
       @item = @online.item(:id => response['id'])
     end
-    
+
     describe "with simple text" do
       before :all do
         @response = @online.item_addComment(:id => @item['id'], :comment => 'Testing Comment')
@@ -23,6 +23,6 @@ describe Arcgis::Sharing::Comment do
     after :all do
       response = @online.item_delete(:items => [@item["id"]])
       expect(response["results"].first["success"]).to eq(true)
-    end    
+    end
   end
-end    
+end
