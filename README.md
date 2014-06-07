@@ -9,33 +9,37 @@ The library currently just exposes the service endpoints and accepts unverified 
 ## Instructions
 
 ```ruby
-# Create a client
-@online = Arcgis::Online.new(:host => "http://www.arcgis.com/sharing/rest/")
-# Do an unauthenticated search
-results = @online.search(:q => "weather", :itemtype => "Web Map")
 
-# For features with permissions, first log in
-@online.login(:username => @username, :password => @password)
+# Simple usage
+results = Arcgis::Online.search(q: "weather", itemtype: "Web Map")
+item = Arcgis::Online.item(id: 'd6b52a4540b747b09884d738b44a00d2')
+
+# Create a client
+Arcgis::Online.login(host: "http://www.arcgis.com/sharing/rest/", 
+                                username: @username, 
+                                password: @password )
+
+# Do an authenticated search
+results = Arcgis::Online.search(q: "weather", itemtype: "Web Map")
 
 # Create an item
-response = @online.item_add( :title => "Weather Station Temperatures",
-                  :type => "CSV",
-                  :file => File.open("my_data.csv"),
-                  :tags  => %w{temperature stations}.join(","))
+item = Arcgis::Online::Item.new( title: "Weather Station Temperatures",
+                  type: "CSV",
+                  file: File.open("my_data.csv"),
+                  tags: %w{temperature stations}.join(","))
 
-@id = response["id"]
-puts "This item has #{response['numComments']} comments."
+puts "This item has #{item.numComments]} comments."
 
-# Publish as a feature service
-analysis = @online.item_analyze(:id => @id, :type => "CSV")
-publish = @online.item_publish(:id => @id,
-                               :filetype => "Feature Service",
-                               :publishParameters => analysis["publishParameters"].to_json)
+# Publish as a feature service - returns a new item (yeah...)
+service_item = item.publish(filetype: "Feature Service",
+                               publishParameters: analysis["publishParameters"].to_json)
 
-puts "Feature Service URL: " + publish["services"].first["serviceurl"]
+puts "Feature Service URL: " + service_item.services.first.serviceUrl
 
 # Clean up
-@online.item_delete(:items => [@id, publish["services"].first["serviceItemId"]])
+service_item.delete
+item.delete
+
 ```
 
 ### Testing
