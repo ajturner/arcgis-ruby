@@ -69,7 +69,6 @@ module Arcgis
     
     def get(path,options={})
       path.gsub!(/%username%/,@username || "")
-      # puts "Online#get #{path}" if @debug
       uri = URI.parse(@host + path)
       uri.query = URI.encode_www_form({:f => "json",
                              :token => @token}.merge(options))
@@ -81,7 +80,6 @@ module Arcgis
       secure = options.delete(:secure) || false
       path.gsub!(/%username%/,@username || "")
       uri = URI.parse(@host + path)
-      #puts "Online#post #{uri}" if @debug
       http = Net::HTTP.new(uri.host, secure ? 443 : uri.port)
       if(secure)
         http.use_ssl = true
@@ -106,9 +104,13 @@ module Arcgis
 
     def handle_response(res) 
       if res.is_a?(Net::HTTPSuccess)
-        response = JSON.parse(res.body)
-        raise ErrorResponse.new(response["error"]) if response["error"]
-        return response
+        unless res.nil? or res.body.nil? or res.body == 'null'
+          response = JSON.parse(res.body) 
+          raise ErrorResponse.new(response["error"]) if response["error"]
+          return response
+        else
+          nil
+        end
       else
         throw res.status
       end
