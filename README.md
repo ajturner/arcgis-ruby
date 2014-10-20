@@ -1,10 +1,16 @@
 # ArcGIS Online Ruby Library
 
-This library is a simple wrapper around the ArcGIS API's for GeoServices and ArcGIS Online using the sharing API.
+This library is a simple wrapper around the ArcGIS Online sharing API for Users, Groups, Items, and Search. 
 
-The library currently just exposes the service endpoints and accepts unverified hashes of input parameters as specified in the [ArcGIS API](http://www.arcgis.com/apidocs/rest/). As it evolves more endpoints will be added as well as more Ruby-like objects for the various API capabilities.
+The library currently just exposes the API endpoints and accepts unverified hashes of input parameters as specified in the [ArcGIS API](http://www.arcgis.com/apidocs/rest/). As it evolves more endpoints will be added as well as more Ruby-like objects for the various API capabilities.
 
+If you want to query the FeatureService and MapService endpoitns, then check out the [GeoServices-Ruby](https://github.com/ajturner/geoservices-ruby) library. 
 
+## Install
+
+Just install using Rubygems:
+
+`gem install geoservices`
 
 ## Instructions
 
