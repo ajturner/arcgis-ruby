@@ -2,7 +2,7 @@ module Arcgis
   module Sharing
     module Features
       include Arcgis::Base
-      # API Docs: http://devext.arcgis.com/apidocs/rest/features.html
+      # API Docs: http://arcgis.com/apidocs/rest/features.html
       def features_url
         "features/"
       end
